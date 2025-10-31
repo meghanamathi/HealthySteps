@@ -1,0 +1,49 @@
+name: healthysteps
+description: "A bilingual Flutter app for Anganwadi attendance, goods tracking, and citizen feedback."
+
+publish_to: 'none'
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.9.2
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # 🌐 Localization support for English + Telugu
+  flutter_localizations:
+    sdk: flutter
+  easy_localization: ^3.0.3
+
+  # 🔗 For API calls (connect to Node.js backend)
+  http: ^1.2.2
+
+  # 🧠 For app-wide state management
+  provider: ^6.1.2
+
+  # 🔊 Text-to-speech for illiterate users
+  flutter_tts: ^3.8.5
+
+  # 📱 Icons and Material Design
+  cupertino_icons: ^1.0.8
+  font_awesome_flutter: ^10.7.0
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+
+flutter:
+  uses-material-design: true
+
+  # 🗂️ Add your translation files here
+  assets:
+    - assets/lang/en-US.json
+    - assets/lang/te-IN.json
+
+  # 🖋️ Telugu-friendly font
+  fonts:
+    - family: NotoSansTelugu
+      fonts:
+        - asset: assets/fonts/NotoSansTelugu-Regular.ttf
