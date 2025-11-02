@@ -1,44 +1,64 @@
 import 'package:flutter/material.dart';
-import 'attendance_screen.dart';
-import 'goods_screen.dart';
-import 'feedback_screen.dart';
-import 'profile_screen.dart';
-import '../services/api_service.dart';
+import 'package:easy_localization/easy_localization.dart';
+import 'common/login_screen.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
-
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  int _selectedIndex = 0;
-  final screens = [
-    AttendanceScreen(),
-    GoodsScreen(),
-    FeedbackScreen(),
-    ProfileScreen(),
-  ];
+class LanguageSelectionScreen extends StatelessWidget {
+  const LanguageSelectionScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('HEALTHYSteps'),
-        backgroundColor: Colors.green[700],
-      ),
-      body: screens[_selectedIndex],
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: _selectedIndex,
-        selectedItemColor: Colors.green[700],
-        onTap: (index) => setState(() => _selectedIndex = index),
-        items: const [
-          BottomNavigationBarItem(icon: Icon(Icons.check_circle), label: 'Attendance'),
-          BottomNavigationBarItem(icon: Icon(Icons.inventory), label: 'Goods'),
-          BottomNavigationBarItem(icon: Icon(Icons.feedback), label: 'Feedback'),
-          BottomNavigationBarItem(icon: Icon(Icons.person), label: 'Profile'),
-        ],
+      backgroundColor: const Color(0xFFF1F8E9),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'choose_language'.tr(),
+              style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+            ),
+            const SizedBox(height: 30),
+            ElevatedButton.icon(
+              icon: const Icon(Icons.language, color: Colors.white),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: const Color(0xFF4CAF50),
+                padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 14),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+              ),
+              onPressed: () {
+                context.setLocale(const Locale('en', 'US'));
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (_) => const LoginScreen()),
+                );
+              },
+              label: Text('english'.tr(),
+                  style: const TextStyle(fontSize: 18, color: Colors.white)),
+            ),
+            const SizedBox(height: 15),
+            ElevatedButton.icon(
+              icon: const Icon(Icons.translate, color: Colors.white),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.teal,
+                padding: const EdgeInsets.symmetric(horizontal: 40, vertical: 14),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+              ),
+              onPressed: () {
+                context.setLocale(const Locale('te', 'IN'));
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(builder: (_) => const LoginScreen()),
+                );
+              },
+              label: Text('telugu'.tr(),
+                  style: const TextStyle(fontSize: 18, color: Colors.white)),
+            ),
+          ],
+        ),
       ),
     );
   }

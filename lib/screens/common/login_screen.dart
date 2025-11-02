@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'parents/parent_login_screen.dart';
-import 'pregnant/pregnant_login_screen.dart';
-import 'staff/staff_login_screen.dart';
-import 'admin/admin_login_screen.dart';
+import 'package:easy_localization/easy_localization.dart';
+import '../parents/parent_login_screen.dart';
+import '../pregnant/pregnant_login_screen.dart';
+import '../staff/staff_login_screen.dart';
+import '../admin/admin_login_screen.dart';
 import 'registration_screen.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -31,36 +32,70 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: const Color(0xFFF1F8E9),
-      appBar: AppBar(title: const Text("Select Role"), backgroundColor: Colors.green),
+      appBar: AppBar(
+        backgroundColor: Colors.green,
+        title: Text("select_role".tr(), style: const TextStyle(color: Colors.white)),
+        centerTitle: true,
+      ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            DropdownButton<String>(
-              value: selectedRole.isEmpty ? null : selectedRole,
-              hint: const Text("Select Role"),
-              items: const [
-                DropdownMenuItem(value: "Parent", child: Text("Parent")),
-                DropdownMenuItem(value: "Pregnant Woman", child: Text("Pregnant Woman")),
-                DropdownMenuItem(value: "Staff", child: Text("Staff")),
-                DropdownMenuItem(value: "Admin", child: Text("Admin")),
-              ],
-              onChanged: (v) => setState(() => selectedRole = v!),
-            ),
-            const SizedBox(height: 25),
-            ElevatedButton(
-              onPressed: selectedRole.isEmpty ? null : navigateToRoleLogin,
-              style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
-              child: const Text("Continue", style: TextStyle(color: Colors.white)),
-            ),
-            const SizedBox(height: 20),
-            TextButton(
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (_) => const RegistrationScreen()));
-              },
-              child: const Text("Don’t have an account? Register"),
-            ),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.all(24),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(Icons.account_circle, size: 80, color: Colors.green),
+              const SizedBox(height: 20),
+              Text(
+                "choose_your_role".tr(),
+                style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black87),
+              ),
+              const SizedBox(height: 20),
+
+              // 🟢 Role Dropdown
+              DropdownButton<String>(
+                value: selectedRole.isEmpty ? null : selectedRole,
+                hint: Text("select_role".tr()),
+                items: [
+                  DropdownMenuItem(value: "Parent", child: Text("parent".tr())),
+                  DropdownMenuItem(value: "Pregnant Woman", child: Text("pregnant_woman".tr())),
+                  DropdownMenuItem(value: "Staff", child: Text("staff".tr())),
+                  DropdownMenuItem(value: "Admin", child: Text("admin".tr())),
+                ],
+                onChanged: (v) => setState(() => selectedRole = v!),
+              ),
+
+              const SizedBox(height: 25),
+
+              // ✅ Continue Button
+              ElevatedButton(
+                onPressed: selectedRole.isEmpty ? null : navigateToRoleLogin,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.green,
+                  padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 14),
+                ),
+                child: Text(
+                  "continue".tr(),
+                  style: const TextStyle(color: Colors.white, fontSize: 16),
+                ),
+              ),
+
+              const SizedBox(height: 20),
+
+              // 🔗 Registration Link
+              TextButton(
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (_) => const RegistrationScreen()),
+                  );
+                },
+                child: Text(
+                  "don't_have_account".tr(),
+                  style: const TextStyle(color: Colors.green, fontWeight: FontWeight.bold),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

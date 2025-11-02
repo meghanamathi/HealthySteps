@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:easy_localization/easy_localization.dart';
-import 'screens/language_selection.dart';
+import 'screens/common/language_selection.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -8,9 +8,12 @@ void main() async {
 
   runApp(
     EasyLocalization(
-      supportedLocales: [Locale('en', 'US'), Locale('te', 'IN')],
-      path: 'assets/lang',
-      fallbackLocale: Locale('en', 'US'),
+      supportedLocales: const [
+        Locale('en', 'US'),
+        Locale('te', 'IN'),
+      ],
+      path: 'assets/lang', // folder for en-US.json & te-IN.json
+      fallbackLocale: const Locale('en', 'US'),
       child: const MyApp(),
     ),
   );
@@ -22,12 +25,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'HEALTHYSteps',
       debugShowCheckedModeBanner: false,
+      title: 'Healthy Steps',
+      theme: ThemeData(
+        primarySwatch: Colors.green,
+        fontFamily: 'NotoSansTelugu',
+      ),
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,
-      home: const LanguageSelectionScreen(),
+      home: const LanguageSelectionScreen(), // 🟢 first screen
     );
   }
 }

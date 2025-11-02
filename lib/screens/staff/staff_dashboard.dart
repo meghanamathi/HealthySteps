@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'attendance_screen.dart';
-import 'goods_screen.dart';
-import 'feedback_screen.dart';
+import 'package:easy_localization/easy_localization.dart';
+import '../shared/attendance_screen.dart';
+import '../shared/goods_screen.dart';
+import '../shared/feedback_screen.dart';
 
 class StaffDashboard extends StatelessWidget {
   final String name;
@@ -21,15 +22,18 @@ class StaffDashboard extends StatelessWidget {
       backgroundColor: const Color(0xFFE3F2FD),
       appBar: AppBar(
         backgroundColor: Colors.blue,
-        title: Text("Welcome, $name", style: const TextStyle(color: Colors.white)),
+        title: Text(
+          'welcome_user'.tr(args: [name]),
+          style: const TextStyle(color: Colors.white),
+        ),
       ),
       body: GridView.count(
         crossAxisCount: 2,
         padding: const EdgeInsets.all(16),
         children: [
-          _buildCard(context, Icons.how_to_reg, "Mark Attendance", const AttendanceScreen()),
-          _buildCard(context, Icons.inventory, "Confirm Goods", const GoodsScreen()),
-          _buildCard(context, Icons.feedback, "Feedbacks", const FeedbackScreen()),
+          _buildCard(context, Icons.calendar_today, 'mark_attendance'.tr(), const AttendanceScreen()),
+          _buildCard(context, Icons.inventory, 'confirm_goods'.tr(), const GoodsScreen()),
+          _buildCard(context, Icons.feedback, 'give_feedback'.tr(), const FeedbackScreen()),
         ],
       ),
     );

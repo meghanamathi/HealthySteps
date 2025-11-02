@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'parent_registration_screen.dart';
-import 'pregnant_registration_screen.dart';
-import 'staff_registration_screen.dart';
-import 'admin_registration_screen.dart';
+import 'package:easy_localization/easy_localization.dart';
+import '../parents/parent_registration_screen.dart';
+import '../pregnant/pregnant_registration_screen.dart';
+import '../staff/staff_registration_screen.dart';
+import '../admin/admin_registration_screen.dart';
 
 class RegistrationScreen extends StatefulWidget {
   const RegistrationScreen({super.key});
@@ -29,29 +30,55 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Select Role"), backgroundColor: Colors.green),
+      backgroundColor: const Color(0xFFF1F8E9),
+      appBar: AppBar(
+        title: Text("select_role".tr(), style: const TextStyle(color: Colors.white)),
+        backgroundColor: Colors.green,
+        centerTitle: true,
+      ),
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            DropdownButton<String>(
-              value: selectedRole.isEmpty ? null : selectedRole,
-              hint: const Text("Select Role"),
-              items: const [
-                DropdownMenuItem(value: "Parent", child: Text("Parent")),
-                DropdownMenuItem(value: "Pregnant Woman", child: Text("Pregnant Woman")),
-                DropdownMenuItem(value: "Staff", child: Text("Staff")),
-                DropdownMenuItem(value: "Admin", child: Text("Admin")),
-              ],
-              onChanged: (v) => setState(() => selectedRole = v!),
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: selectedRole.isEmpty ? null : navigateToForm,
-              style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
-              child: const Text("Continue", style: TextStyle(color: Colors.white)),
-            )
-          ],
+        child: Padding(
+          padding: const EdgeInsets.all(24.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              const Icon(Icons.person_add, size: 80, color: Colors.green),
+              const SizedBox(height: 20),
+              Text(
+                "register_as".tr(),
+                style: const TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+              ),
+              const SizedBox(height: 20),
+
+              // 🔽 Role Dropdown
+              DropdownButton<String>(
+                value: selectedRole.isEmpty ? null : selectedRole,
+                hint: Text("select_role".tr()),
+                items: [
+                  DropdownMenuItem(value: "Parent", child: Text("parent".tr())),
+                  DropdownMenuItem(value: "Pregnant Woman", child: Text("pregnant_woman".tr())),
+                  DropdownMenuItem(value: "Staff", child: Text("staff".tr())),
+                  DropdownMenuItem(value: "Admin", child: Text("admin".tr())),
+                ],
+                onChanged: (v) => setState(() => selectedRole = v!),
+              ),
+
+              const SizedBox(height: 25),
+
+              // ✅ Continue Button
+              ElevatedButton(
+                onPressed: selectedRole.isEmpty ? null : navigateToForm,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.green,
+                  padding: const EdgeInsets.symmetric(horizontal: 60, vertical: 14),
+                ),
+                child: Text(
+                  "continue".tr(),
+                  style: const TextStyle(color: Colors.white, fontSize: 16),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

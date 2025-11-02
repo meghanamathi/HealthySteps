@@ -37,8 +37,9 @@ dev_dependencies:
 flutter:
   uses-material-design: true
 
-  # 🗂️ Add your translation files here
+  # 🗂️ Translation assets
   assets:
+    - assets/images/healthy_logo.jpg
     - assets/lang/en-US.json
     - assets/lang/te-IN.json
 

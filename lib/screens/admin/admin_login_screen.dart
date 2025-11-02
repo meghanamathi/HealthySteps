@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import '../services/api_service.dart';
+import 'package:easy_localization/easy_localization.dart';
+import '../../services/api_service.dart';
 import 'admin_dashboard.dart';
 
 class AdminLoginScreen extends StatefulWidget {
@@ -16,35 +17,24 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
 
   Future<void> loginAdmin() async {
     setState(() => loading = true);
-
-    // ✅ Call login API
-    final success = await ApiService.login(uniqueId.text, password.text);
-
+    final result = await ApiService.loginAdmin(uniqueId.text, password.text);
     setState(() => loading = false);
 
-    if (success) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("✅ Login Successful!"),
-          backgroundColor: Colors.green,
-        ),
-      );
-
-      // ✅ Navigate to Admin Dashboard
+    if (result != null) {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
           builder: (_) => AdminDashboard(
-            name: "Admin User", // You can pass actual name if available
-            uniqueId: uniqueId.text,
-            phone: "N/A",
+            name: result['name'] ?? 'Admin',
+            uniqueId: result['uniqueId'] ?? '',
+            phone: '',
           ),
         ),
       );
     } else {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("❌ Invalid Unique ID or Password"),
+        SnackBar(
+          content: Text("invalid_credentials".tr()),
           backgroundColor: Colors.red,
         ),
       );
@@ -54,29 +44,30 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: const Color(0xFFF1F8E9),
       appBar: AppBar(
-        title: const Text("Admin Login"),
-        backgroundColor: Colors.orange,
+        backgroundColor: Colors.green,
+        title: Text("admin_login".tr(), style: const TextStyle(color: Colors.white)),
+        centerTitle: true,
       ),
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            _buildTextField("Unique ID", uniqueId, false),
+            _buildField("unique_id".tr(), uniqueId),
             const SizedBox(height: 20),
-            _buildTextField("Password", password, true),
+            _buildField("password".tr(), password, obscure: true),
             const SizedBox(height: 30),
             ElevatedButton(
               onPressed: loading ? null : loginAdmin,
               style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.orange,
+                backgroundColor: Colors.green,
                 padding: const EdgeInsets.symmetric(horizontal: 50, vertical: 14),
               ),
               child: loading
                   ? const CircularProgressIndicator(color: Colors.white)
-                  : const Text("Login", style: TextStyle(color: Colors.white, fontSize: 16)),
+                  : Text("login".tr(), style: const TextStyle(color: Colors.white, fontSize: 16)),
             ),
           ],
         ),
@@ -84,7 +75,7 @@ class _AdminLoginScreenState extends State<AdminLoginScreen> {
     );
   }
 
-  Widget _buildTextField(String label, TextEditingController controller, bool obscure) {
+  Widget _buildField(String label, TextEditingController controller, {bool obscure = false}) {
     return TextField(
       controller: controller,
       obscureText: obscure,

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:easy_localization/easy_localization.dart';
+import '../../services/api_service.dart';
 import 'parent_dashboard.dart';
 
 class ParentLoginScreen extends StatefulWidget {
@@ -9,41 +11,69 @@ class ParentLoginScreen extends StatefulWidget {
 }
 
 class _ParentLoginScreenState extends State<ParentLoginScreen> {
-  final birthCertController = TextEditingController();
-  final passwordController = TextEditingController();
+  final birthCertNo = TextEditingController();
+  final password = TextEditingController();
+  bool loading = false;
 
-  void login() {
-    // TODO: Integrate API later
-    Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const ParentDashboard()));
+  Future<void> loginParent() async {
+    setState(() => loading = true);
+    final result = await ApiService.loginParent(birthCertNo.text, password.text);
+    setState(() => loading = false);
+
+    if (result != null) {
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (_) => ParentDashboard(
+            name: result['name'] ?? 'Parent',
+            uniqueId: result['birthCertNo'] ?? '', // Use as uniqueId
+            phone: result['phone'] ?? '', birthCertNo: '',
+          ),
+        ),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text("invalid_credentials".tr()),
+          backgroundColor: Colors.red,
+        ),
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Parent Login"), backgroundColor: Colors.green),
+      appBar: AppBar(title: Text('parent_login'.tr()), backgroundColor: Colors.purple),
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            TextField(
-              controller: birthCertController,
-              decoration: const InputDecoration(labelText: "Birth Certificate No", border: OutlineInputBorder()),
-            ),
+            _buildField("birth_certificate".tr(), birthCertNo),
             const SizedBox(height: 20),
-            TextField(
-              controller: passwordController,
-              obscureText: true,
-              decoration: const InputDecoration(labelText: "Password", border: OutlineInputBorder()),
-            ),
+            _buildField("password".tr(), password, obscure: true),
             const SizedBox(height: 30),
             ElevatedButton(
-              onPressed: login,
-              style: ElevatedButton.styleFrom(backgroundColor: Colors.green),
-              child: const Text("Login", style: TextStyle(color: Colors.white)),
+              onPressed: loading ? null : loginParent,
+              style: ElevatedButton.styleFrom(backgroundColor: Colors.purple),
+              child: loading
+                  ? const CircularProgressIndicator(color: Colors.white)
+                  : Text("login".tr(), style: const TextStyle(color: Colors.white)),
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget _buildField(String label, TextEditingController controller, {bool obscure = false}) {
+    return TextField(
+      controller: controller,
+      obscureText: obscure,
+      decoration: InputDecoration(
+        labelText: label,
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
       ),
     );
   }

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'parent_registration_screen.dart';
-import 'pregnant_registration_screen.dart';
-import 'staff_registration_screen.dart';
-import 'admin_registration_screen.dart';
+import 'package:easy_localization/easy_localization.dart';
+import '../parents/parent_registration_screen.dart';
+import '../pregnant/pregnant_registration_screen.dart';
+import '../staff/staff_registration_screen.dart';
+import '../admin/admin_registration_screen.dart';
 
 class RoleSelectionScreen extends StatelessWidget {
   const RoleSelectionScreen({super.key});
@@ -12,20 +13,23 @@ class RoleSelectionScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.green.shade50,
       appBar: AppBar(
-        title: const Text("Select Role"),
+        title: Text("select_role".tr(), style: const TextStyle(color: Colors.white)),
         backgroundColor: Colors.green,
         centerTitle: true,
       ),
       body: Center(
-        child: Wrap(
-          spacing: 20,
-          runSpacing: 20,
-          children: [
-            _roleCard(context, "Parent", Icons.family_restroom, Colors.green, const ParentRegistrationScreen()),
-            _roleCard(context, "Pregnant Woman", Icons.pregnant_woman, Colors.pink, const PregnantRegistrationScreen()),
-            _roleCard(context, "Staff", Icons.school, Colors.blue, const StaffRegistrationScreen()),
-            _roleCard(context, "Admin", Icons.admin_panel_settings, Colors.orange, const AdminRegistrationScreen()),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Wrap(
+            spacing: 20,
+            runSpacing: 20,
+            children: [
+              _roleCard(context, "parent".tr(), Icons.family_restroom, Colors.green, const ParentRegistrationScreen()),
+              _roleCard(context, "pregnant_woman".tr(), Icons.pregnant_woman, Colors.pink, const PregnantRegistrationScreen()),
+              _roleCard(context, "staff".tr(), Icons.school, Colors.blue, const StaffRegistrationScreen()),
+              _roleCard(context, "admin".tr(), Icons.admin_panel_settings, Colors.orange, const AdminRegistrationScreen()),
+            ],
+          ),
         ),
       ),
     );
@@ -47,7 +51,11 @@ class RoleSelectionScreen extends StatelessWidget {
           children: [
             Icon(icon, size: 50, color: color),
             const SizedBox(height: 10),
-            Text(title, style: TextStyle(fontSize: 18, color: color, fontWeight: FontWeight.bold)),
+            Text(
+              title,
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 16, color: color, fontWeight: FontWeight.bold),
+            ),
           ],
         ),
       ),

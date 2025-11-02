@@ -4,10 +4,11 @@ const pregnantSchema = new mongoose.Schema({
   name: { type: String, required: true },
   aadhar: { type: String, required: true },
   phone: { type: String, required: true },
-  address: { type: String, required: true },
-  expectedDelivery: { type: String, required: true },
-  healthId: { type: String, required: true },
   password: { type: String, required: true },
+  healthId: { type: String, required: true },
+  address: { type: String, required: true },
+  expectedDeliveryDate: { type: String, required: true },
 });
 
-export default mongoose.model("PregnantWoman", pregnantSchema);
+
+export default mongoose.model("Pregnant", pregnantSchema);
