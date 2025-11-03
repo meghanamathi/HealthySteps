@@ -1,5 +1,5 @@
 import express from "express";
-import Pregnant from "../models/Pregnant.js";
+import Pregnant from "../models/pregnant.js";
 
 const router = express.Router();
 
