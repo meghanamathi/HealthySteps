@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 
 class ApiService {
   // ⚙️ Base URL for backend
-  static const String baseUrl = "http://localhost:5000/api";
+  static const String baseUrl = "http://10.10.29.218:5000/api";
 
   // ---------------------------------------------------------------------------
   // 🔹 COMMON AUTH (for general users if needed)
