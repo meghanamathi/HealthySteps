@@ -1,5 +1,5 @@
 import express from "express";
-import Parent from "../models/Parent.js";
+import Parent from "../models/parent.js";
 
 const router = express.Router();
 
